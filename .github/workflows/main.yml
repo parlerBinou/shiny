@@ -58,8 +58,12 @@ jobs:
     # Clone the Helm chart
     - run: |
         git clone https://github.com/statcan/charts.git
+        mkdir -p /home/runner/work/_temp/_github_home/
+        cp $KUBECONFIG /home/runner/work/_temp/_github_home/KUBECONFIG
     # Deploy Helm chart
     - uses: 'deliverybot/helm@v1'
+      env:
+        KUBECONFIG: /github/home/KUBECONFIG
       with:
         release: 'shiny'
         namespace: 'web'
