@@ -1,0 +1,12 @@
+gridExtra
+lubridate
+plotly
+zoo
+reshape2
+DT
+ggridges
+xlsx
+plyr
+viridis
+devtools
+shinydashboard
