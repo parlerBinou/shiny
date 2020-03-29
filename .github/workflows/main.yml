@@ -86,3 +86,5 @@ jobs:
           #   enabled: false
           imagePullSecrets:
             - name: "${{ env.REGISTRY_NAME }}-registry-connection"
+          annotations:
+            sidecar.istio.io/inject: "true"
