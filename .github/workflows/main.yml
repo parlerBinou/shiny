@@ -72,7 +72,8 @@ jobs:
         token: '${{ github.token }}'
         values: |
           image:
-            tag: "${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}"
+            repository: "${{ env.REGISTRY_NAME }}.azurecr.io/shiny"
+            tag: "${{ github.sha }}"
           ingress:
             enabled: true
             hosts:
