@@ -34,3 +34,49 @@ jobs:
     - run: |
         docker build -f Dockerfile -t ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }} .
         docker push ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
+    # Set the target Azure Kubernetes Service (AKS) cluster.
+    - uses: azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: ${{ env.CLUSTER_NAME }}
+        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+    # Create imagepullsecret for Azure Container registry (ACR)
+    - uses: azure/k8s-create-secret@v1
+      with:
+        container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
+        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        secret-name: ${{ env.REGISTRY_NAME }}-registry-connection
+        namespace: ${{ env.NAMESPACE }}
+    # Create secret for Azure Files mount
+    - uses: azure/k8s-create-secret@v1
+      with:
+        secret-type: generic
+        arguments: --from-literal=azurestorageaccountname=${{ env.STORAGE_ACCOUNT_NAME }} --from-literal=azurestorageaccountkey=${{ secrets.STORAGE_KEY }}
+        secret-name: shiny-innovation-storage
+        namespace: ${{ env.NAMESPACE }}
+    # Clone the Helm chart
+    - run: |
+        git clone https://github.com/statcan/charts.git
+    # Deploy Helm chart
+    - uses: 'deliverybot/helm@v1'
+      with:
+        release: 'shiny'
+        namespace: 'web'
+        chart: './charts/stable/shiny'
+        token: '${{ github.token }}'
+        values: |
+          image:
+            tag: "${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}"
+          ingress:
+            enabled: true
+            hosts:
+              - host: "shiny.covid.cloud.statcan.ca"
+                paths:
+                  - "/*"
+            annotations:
+              kubernetes.io/ingress.class: istio
+          # destinationRule:
+          #   enabled: false
+          imagePullSecrets:
+            - name: "${{ env.REGISTRY_NAME }}-registry-connection"
