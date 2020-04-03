@@ -35,28 +35,8 @@ jobs:
     - run: |
         docker build -f Dockerfile -t ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }} .
         docker push ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
-    # Set the target Azure Kubernetes Service (AKS) cluster.
-    - uses: azure/aks-set-context@v1
-      with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
-        cluster-name: ${{ env.CLUSTER_NAME }}
-        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
-    # Create imagepullsecret for Azure Container registry (ACR)
-    - uses: azure/k8s-create-secret@v1
-      with:
-        container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
-        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
-        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        secret-name: ${{ env.REGISTRY_NAME }}-registry-connection
-        namespace: ${{ env.NAMESPACE }}
-    # Create secret for Azure Files mount
-    - uses: azure/k8s-create-secret@v1
-      with:
-        secret-type: generic
-        arguments: --from-literal=azurestorageaccountname=${{ env.STORAGE_ACCOUNT_NAME }} --from-literal=azurestorageaccountkey=${{ secrets.STORAGE_KEY }}
-        secret-name: shiny-innovation-storage
-        namespace: ${{ env.NAMESPACE }}
+    # Scan image for vulnerabilities
     - name: Scan image for vulnerabilities
       uses: docker://docker.io/aquasec/trivy:0.2.1
       with:
-        args: --cache-dir /var/lib/trivy ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
+        args: --cache-dir /var/lib/trivy --exit-code 1 --severity CRITICAL --no-progress ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
