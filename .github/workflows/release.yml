@@ -10,7 +10,10 @@
 #     c. AZURE_CREDENTIALS with the output of `az ad sp create-for-rbac --sdk-auth`
 #
 # 2. Change the values for the REGISTRY_NAME, CLUSTER_NAME, CLUSTER_RESOURCE_GROUP and NAMESPACE environment variables (below).
-on: [push]
+name: release
+on:
+  release:
+    types: [published, created, edited]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -55,6 +58,10 @@ jobs:
         arguments: --from-literal=azurestorageaccountname=${{ env.STORAGE_ACCOUNT_NAME }} --from-literal=azurestorageaccountkey=${{ secrets.STORAGE_KEY }}
         secret-name: shiny-innovation-storage
         namespace: ${{ env.NAMESPACE }}
+    - name: Scan image for vulnerabilities
+      uses: docker://docker.io/aquasec/trivy:0.2.1
+      with:
+        args: --cache-dir /var/lib/trivy ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
     # Clone the Helm chart
     - run: |
         git clone https://github.com/statcan/charts.git
