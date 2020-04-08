@@ -62,7 +62,7 @@ jobs:
     - name: Scan image for vulnerabilities
       uses: docker://docker.io/aquasec/trivy:0.2.1
       with:
-        args: --cache-dir /var/lib/trivy --exit-code 1 --severity CRITICAL --no-progress ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
+        args: --cache-dir /var/lib/trivy --severity CRITICAL --no-progress ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
     # Clone the Helm chart
     - run: |
         git clone https://github.com/statcan/charts.git
