@@ -13,7 +13,7 @@
 name: release
 on:
   release:
-    types: [published, created, edited]
+    types: [published]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
