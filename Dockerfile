@@ -1,5 +1,5 @@
 # GitHub: https://github.com/rocker-org/shiny
-FROM rocker/shiny-verse:3.6.0
+FROM rocker/shiny-verse:3.6.2
 
 # Install our custom packages
 COPY ./PACKAGES /opt/PACKAGES

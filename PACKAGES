@@ -9,4 +9,5 @@ xlsx
 plyr
 viridis
 devtools
+leaflet
 shinydashboard
