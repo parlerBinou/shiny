@@ -85,7 +85,7 @@ jobs:
           ingress:
             enabled: true
             hosts:
-              - host: "shiny.covid.cloud.statcan.ca"
+              - host: "shiny.${{ secrets.DOMAIN_NAME }}"
                 paths:
                   - "/*"
             annotations:
