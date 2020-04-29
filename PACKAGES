@@ -11,3 +11,5 @@ viridis
 devtools
 leaflet
 shinydashboard
+sqldf
+shinythemes
