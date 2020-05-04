@@ -1,6 +1,8 @@
 # GitHub: https://github.com/rocker-org/shiny
 FROM rocker/shiny-verse:3.6.2
 
+RUN sudo apt-get install -y libgdal-dev libproj-dev
+
 # Install our custom packages
 COPY ./PACKAGES /opt/PACKAGES
 RUN cat /opt/PACKAGES | xargs install2.r -s

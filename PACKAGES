@@ -13,3 +13,11 @@ leaflet
 shinydashboard
 sqldf
 shinythemes
+sp
+rgdal
+rgeos
+geosphere
+shiny.i18n
+shinyWidgets
+spdplyr
+formattable
