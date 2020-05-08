@@ -21,3 +21,10 @@ shiny.i18n
 shinyWidgets
 spdplyr
 formattable
+cansim
+ggplot2
+readxl
+scales
+shiny
+shinycssloaders
+tidyverse
