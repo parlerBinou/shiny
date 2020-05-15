@@ -34,4 +34,4 @@ jobs:
     - name: Scan image for vulnerabilities
       uses: docker://docker.io/aquasec/trivy:0.2.1
       with:
-        args: --cache-dir /var/lib/trivy -severity CRITICAL --no-progress ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
+        args: --cache-dir /var/lib/trivy --severity CRITICAL --no-progress ${{ env.REGISTRY_NAME }}.azurecr.io/shiny:${{ github.sha }}
