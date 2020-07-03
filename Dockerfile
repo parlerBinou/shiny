@@ -2,15 +2,17 @@
 FROM rocker/shiny-verse:3.6.2
 
 RUN apt-get update && apt-get install -y \
-    default-jdk \
-    r-cran-rjava \
-    libgdal-dev \
-    libproj-dev \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
-    libudunits2-dev \
-    libgeos-dev
+      default-jdk \
+      r-cran-rjava \
+      libgdal-dev \
+      libproj-dev \
+      libcurl4-openssl-dev \
+      libssl-dev \
+      libxml2-dev \
+      libudunits2-dev \
+      libgeos-dev \
+    && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install our custom packages
 COPY ./PACKAGES /opt/PACKAGES
