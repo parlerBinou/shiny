@@ -37,3 +37,7 @@ units
 sf
 cansim
 rgdal
+ggrepel
+ggthemes
+knitr
+skimr
