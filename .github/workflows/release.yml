@@ -85,7 +85,6 @@ jobs:
       with:
         release: 'shiny'
         namespace: 'web'
-        tillerNamespace: 'web'
         chart: './charts/stable/shiny'
         token: '${{ github.token }}'
         values: |
