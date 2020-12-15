@@ -1,5 +1,5 @@
 # GitHub: https://github.com/rocker-org/shiny
-FROM rocker/shiny-verse:3.6.2
+FROM rocker/shiny-verse:4.0.3
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       default-jdk \

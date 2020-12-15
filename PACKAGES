@@ -1,3 +1,8 @@
+formatR
+xlsx
+spData
+htmlwidgets
+aws.s3
 gridExtra
 lubridate
 plotly
@@ -5,7 +10,6 @@ zoo
 reshape2
 DT
 ggridges
-xlsx
 plyr
 spdplyr
 viridis
