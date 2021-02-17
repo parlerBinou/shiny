@@ -24,6 +24,9 @@ RUN installGithub.r rstudio/httpuv
 # Copy configuration files into the container image
 COPY conf/shiny-server.conf  /etc/shiny-server/shiny-server.conf
 
+# Copy our custom index file to override the default one
+COPY mountpoints/apps/index.html /srv/shiny-server/index.html
+
 # Make the ShinyApp available at port 3838
 EXPOSE 3838
 
