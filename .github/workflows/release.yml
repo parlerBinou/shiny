@@ -88,6 +88,7 @@ jobs:
         chart: './charts/stable/shiny'
         token: '${{ github.token }}'
         values: |
+          replicaCount: 5
           image:
             repository: "${{ env.REGISTRY_NAME }}.azurecr.io/shiny"
             tag: "${{ github.sha }}"
