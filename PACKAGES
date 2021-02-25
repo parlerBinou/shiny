@@ -45,3 +45,6 @@ ggrepel
 ggthemes
 knitr
 skimr
+shiny.i18n
+circlize
+Cairo
